@@ -6,19 +6,17 @@ element.style.cssText = `
     background: red;
     bottom: 0;
     right: 0;`;
-
-// network API
-
-var color_array = ["red",  "#fa0", "#0f0"]; 
-
-// document.createElement("div").style.background = color_array[1]; // yellow - low internet speed (under 1 mb/s)
-// document.createElement("div").style.background = color_array[2]; // green - has internet  
-
+var color_array = ["#f00",  "#fa0", "#0f6"]; 
 document.body.appendChild(element);
 
-element.style.background = color_array[2];
+function changeColor(){
+    var i = Math.min(Math.ceil( navigator.connection.downlink), 2);
+    element.style.background = color_array[i];
+}
 
+window.addEventListener("offline", changeColor);
+window.addEventListener("online", changeColor);
+setInterval(changeColor, 10000);
+changeColor();
 
-
-
-
+// TODO (dok importam tvoj projekt u neki moj) beacon() // interval 10 s default, ili ovako: beacon({sec:5 }); 
