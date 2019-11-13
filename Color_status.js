@@ -1,15 +1,15 @@
 function beacon(options){
 
-    console.log(typeof options)
-
-    if (options &&  typeof options === 'object') {
-        console.log(1)
+    var default_ms = 10000;
+    
+    if (options  &&  typeof options === 'object') {
+        options =  options.sec * 1000;
+        console.log(options)
     } else {
-        console.log(2)
+        options = default_ms;
+        console.log(options)
     }
-
-    var sec = 1000;
-    var default_ms = sec * 10;
+    
     var element = document.createElement("div");
     element.style.cssText = `
         position: fixed;
@@ -18,6 +18,7 @@ function beacon(options){
         background: red;
         bottom: 0;
         right: 0;`;
+
     var color_array = ["#f00",  "#fa0", "#0f6"]; 
     document.body.appendChild(element);
 
@@ -28,7 +29,6 @@ function beacon(options){
 
     window.addEventListener("offline", changeColor);
     window.addEventListener("online", changeColor);
-    setInterval(changeColor, default_ms);
+    setInterval(changeColor, options);
     changeColor();
-}
-// TODO (dok importam tvoj projekt u neki moj) beacon() // interval 10 s default, ili ovako: beacon({sec:5 }); 
+} 
