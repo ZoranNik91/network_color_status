@@ -1,34 +1,38 @@
 function beacon(options){
 
-    var default_ms = 10000;
+    const opt = Object.assign({
+        zIndex: 2147483647,
+		sec: 10,        // seconds
+        x:100,          // percentage
+        y:100,          // percentage
+		size: 10,       // pixels
+		colors: ["#f00", "#fc0", "#0f6"],
+	}, options);
     
-    if (options  &&  typeof options === 'object') {
-        options =  options.sec * 1000;
-        console.log(options)
-    } else {
-        options = default_ms;
-        console.log(options)
-    }
-    
-    var element = document.createElement("div");
+    const element = document.createElement("div");
+
+    var ox = opt.size * opt.x / 100;
+    var oy = opt.size * opt.y / 100;
+
     element.style.cssText = `
         position: fixed;
-        width: 10px;
-        height: 10px;
+        z-index: ${opt.zIndex};
+        width: ${opt.size}px;
+        height: ${opt.size}px;
         background: red;
-        bottom: 0;
-        right: 0;`;
+        left: calc(${opt.x}% - ${ox}px);
+        top: calc(${opt.y}% - ${oy}px);
+        `;
 
-    var color_array = ["#f00",  "#fa0", "#0f6"]; 
     document.body.appendChild(element);
 
     function changeColor(){
         var i = Math.min(Math.ceil( navigator.connection.downlink), 2);
-        element.style.background = color_array[i];
+        element.style.background = opt.colors[i];
     }
 
     window.addEventListener("offline", changeColor);
     window.addEventListener("online", changeColor);
-    setInterval(changeColor, options);
+    setInterval(changeColor, opt.sec * 1000);
     changeColor();
-} 
+}
