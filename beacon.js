@@ -27,8 +27,8 @@ function beacon(options){
     document.body.appendChild(element);
 
     function changeColor(){
-        var i = Math.min(Math.ceil( navigator.connection.downlink), 2);
-        element.style.background = opt.colors[i];
+        var i = Math.min(Math.ceil( navigator.connection.downlink), 2);   // best function in the world litteraly replace the for loop but it runs faster
+        element.style.background = opt.colors[i];  
     }
 
     window.addEventListener("offline", changeColor);
